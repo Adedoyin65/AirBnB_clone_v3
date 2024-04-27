@@ -10,6 +10,7 @@ app = Flask(__name__)
 # Register blueprint
 app.register_blueprint(app_views)
 
+
 # Teardown app context to close storage
 @app.teardown_appcontext
 def teardown_appcontext(exception):
