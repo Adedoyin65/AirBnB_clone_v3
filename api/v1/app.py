@@ -16,6 +16,7 @@ app.register_blueprint(app_views)
 def teardown_appcontext(exception):
     storage.close()
 
+
 # Handler for 404 errors
 @app.errorhandler(404)
 def not_found(error):
