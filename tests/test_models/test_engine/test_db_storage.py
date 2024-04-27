@@ -86,3 +86,39 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    def test_db_storage_get(self):
+        """A test for the get method"""
+        # Add a State object to the database
+        new_state = State(name="California")
+        self.db_storage.new(new_state)
+        self.db_storage.save()
+
+        # Get the State object using get method
+        retrieved_state = self.db_storage.get(State, new_state.id)
+        self.assertEqual(retrieved_state, new_state)
+
+    def test_db_storage_count(self):
+        """A test for the count method"""
+        # Add some State and City objects to the database
+        new_state_1 = State(name="New York")
+        new_state_2 = State(name="Texas")
+        new_city_1 = City(name="New York City", state_id=new_state_1.id)
+        new_city_2 = City(name="Austin", state_id=new_state_2.id)
+        self.db_storage.new(new_state_1)
+        self.db_storage.new(new_state_2)
+        self.db_storage.new(new_city_1)
+        self.db_storage.new(new_city_2)
+        self.db_storage.save()
+
+        # Count the number of State objects
+        state_count = self.db_storage.count(State)
+        self.assertEqual(state_count, 2)
+
+        # Count the number of City objects
+        city_count = self.db_storage.count(City)
+        self.assertEqual(city_count, 2)
+
+        # Count the total number of objects
+        total_count = self.db_storage.count()
+        self.assertEqual(total_count, 4)
